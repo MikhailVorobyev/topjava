@@ -25,4 +25,8 @@ public class UserMealWithExceed {
     public String getDescription() {
         return description;
     }
+
+    public boolean isExceed() {
+        return exceed;
+    }
 }
