@@ -24,15 +24,15 @@ public class MealMapStorage implements Storage {
         create(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
     }
 
-    private Integer getId() {
+    private Integer getNextId() {
         return nextId.incrementAndGet();
     }
 
     @Override
     public Meal create(Meal meal) {
-        int id = getId();
+        int id = getNextId();
         meal.setId(id);
-        update(id, meal);
+        meals.put(id, meal);
         return meal;
     }
 
@@ -43,7 +43,7 @@ public class MealMapStorage implements Storage {
 
     @Override
     public void update(int id, Meal meal) {
-        meals.put(id, meal);
+        meals.replace(id, meal);
     }
 
     @Override

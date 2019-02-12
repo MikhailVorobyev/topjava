@@ -44,16 +44,13 @@ public class MealServlet extends HttpServlet {
                     meal = storage.read(Integer.parseInt(id));
 
                 } else {
-                    meal = Meal.EMPTY;
-                    meal = storage.create(meal);
+                    meal = MealsUtil.getEmpty();
                 }
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("edit.jsp").forward(request, response);
                 break;
             case "delete":
                 storage.delete(Integer.parseInt(id));
-                response.sendRedirect("meals");
-                break;
             default:
                 response.sendRedirect("meals");
         }
@@ -70,9 +67,13 @@ public class MealServlet extends HttpServlet {
         int calories = ("".equals(paramCalories)) ? 0 : Integer.parseInt(paramCalories);
 
         Meal updatedMeal = new Meal(localDateTime, description, calories);
-        updatedMeal.setId(id);
 
-        storage.update(id, updatedMeal);
+        if (id == 0) {
+            storage.create(updatedMeal);
+        } else {
+            updatedMeal.setId(id);
+            storage.update(id, updatedMeal);
+        }
         response.sendRedirect("meals");
     }
 }

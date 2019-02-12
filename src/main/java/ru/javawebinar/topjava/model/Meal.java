@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Meal {
-    public static final Meal EMPTY = new Meal(null, null, 0);
     private int id;
 
     private final LocalDateTime dateTime;
