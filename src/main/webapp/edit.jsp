@@ -21,7 +21,7 @@
         </dl>
         <dl>
             <dt>Калории</dt>
-            <dd><input type="number" placeholder="Калорийность" name="calories" size=24 value="${meal.calories}"></dd>
+            <dd><input type="number" placeholder="Калорийность" name="calories" value="${meal.calories}"></dd>
         </dl>
         <button type="submit">Сохранить</button>
         <button type="reset" onclick="window.history.back()">Отменить</button>

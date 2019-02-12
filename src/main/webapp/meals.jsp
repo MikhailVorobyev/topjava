@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <jsp:useBean id="mealsList" type="java.util.List<ru.javawebinar.topjava.model.MealTo>" scope="request"/>
+    <jsp:useBean id="mealToList" type="java.util.List<ru.javawebinar.topjava.model.MealTo>" scope="request"/>
     <link rel="stylesheet" href="css/style.css">
     <title>Meals</title>
 </head>
@@ -19,7 +19,7 @@
             <th></th>
             <th></th>
         </tr>
-        <c:forEach items="${mealsList}" var="meal">
+        <c:forEach items="${mealToList}" var="meal">
             <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
             <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate"/>
             <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm" var="formatedDate"/>
@@ -31,7 +31,7 @@
                 <td><a href="meals?id=${meal.id}&action=delete">Delete</a></td>
             </tr>
         </c:forEach>
-        <td colspan="5" ><a href="meals?action=create">Create new meal</a></td>
+        <td colspan="5" ><a href="meals?action=edit">Create new meal</a></td>
     </table>
 </section>
 </body>
