@@ -31,7 +31,7 @@
                 <td><a href="meals?id=${meal.id}&action=delete">Delete</a></td>
             </tr>
         </c:forEach>
-        <td colspan="5" ><a href="meals?action=edit">Create new meal</a></td>
+        <td colspan="5" ><a href="meals?action=create">Create new meal</a></td>
     </table>
 </section>
 </body>

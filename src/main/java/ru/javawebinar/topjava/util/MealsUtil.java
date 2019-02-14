@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MealsUtil {
-    private static final Meal EMPTY = new Meal(null, null, 0);
+    public static final Meal EMPTY = new Meal(null, null, 0);
 
     public static List<MealTo> getFilteredWithExcess(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
@@ -22,10 +22,6 @@ public class MealsUtil {
                 .filter(meal -> TimeUtil.isBetween(meal.getTime(), startTime, endTime))
                 .map(meal -> createWithExcess(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
-    }
-
-    public static Meal getEmpty() {
-        return EMPTY;
     }
 
     private static MealTo createWithExcess(Meal meal, boolean excess) {

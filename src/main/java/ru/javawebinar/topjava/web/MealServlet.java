@@ -28,8 +28,6 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        String id = request.getParameter("id");
-
         if (action == null) {
             List<MealTo> mealToList = MealsUtil.getFilteredWithExcess(storage.getAll(), LocalTime.MIN, LocalTime.MAX, CALORIES_PER_DAY);
             request.setAttribute("mealToList", mealToList);
@@ -37,14 +35,16 @@ public class MealServlet extends HttpServlet {
             return;
         }
 
-        Meal meal;
+        String id = request.getParameter("id");
+        Meal meal = null;
         switch (action) {
+            case "create":
+                meal = MealsUtil.EMPTY;
+                request.setAttribute("meal", meal);
+                request.getRequestDispatcher("edit.jsp").forward(request, response);
             case "edit":
                 if (id != null) {
                     meal = storage.read(Integer.parseInt(id));
-
-                } else {
-                    meal = MealsUtil.getEmpty();
                 }
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("edit.jsp").forward(request, response);
@@ -72,7 +72,7 @@ public class MealServlet extends HttpServlet {
             storage.create(updatedMeal);
         } else {
             updatedMeal.setId(id);
-            storage.update(id, updatedMeal);
+            storage.update(updatedMeal);
         }
         response.sendRedirect("meals");
     }

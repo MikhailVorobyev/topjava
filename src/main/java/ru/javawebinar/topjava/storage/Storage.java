@@ -9,7 +9,7 @@ public interface Storage {
 
     Meal read(int id);
 
-    void update(int id, Meal meal);
+    void update(Meal meal);
 
     void delete(int id);
 

@@ -42,8 +42,8 @@ public class MealMapStorage implements Storage {
     }
 
     @Override
-    public void update(int id, Meal meal) {
-        meals.replace(id, meal);
+    public void update(Meal meal) {
+        meals.replace(meal.getId(), meal);
     }
 
     @Override
