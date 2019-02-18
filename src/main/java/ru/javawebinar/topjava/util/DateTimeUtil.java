@@ -7,8 +7,12 @@ import java.time.format.DateTimeFormatter;
 public class DateTimeUtil {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    public static boolean isBetween(LocalTime lt, LocalTime startTime, LocalTime endTime) {
-        return lt.compareTo(startTime) >= 0 && lt.compareTo(endTime) <= 0;
+    public static boolean isBetweenTime(LocalTime lt, LocalTime startTime, LocalTime endTime) {
+        return isBetween(lt, startTime, endTime);
+    }
+
+    public static <T extends Comparable<T>> boolean isBetween(T local, T startLocal, T endLocal) {
+        return local.compareTo(startLocal) >= 0 && local.compareTo(endLocal) <= 0;
     }
 
     public static String toString(LocalDateTime ldt) {
