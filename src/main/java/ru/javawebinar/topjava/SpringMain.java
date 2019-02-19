@@ -25,8 +25,10 @@ public class SpringMain {
             List<MealTo> mealToList = controller.getAll();
             System.out.println(mealToList);
             System.out.println("--------------------------------------------");
+
             Meal meal = controller.get(2);
             System.out.println(meal);
+            System.out.println("--------------------------------------------");
         }
     }
 }

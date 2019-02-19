@@ -6,15 +6,7 @@
 <html>
 <head>
     <title>Meal list</title>
-    <style>
-        .normal {
-            color: green;
-        }
-
-        .excess {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <section>
@@ -22,6 +14,27 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
+    <form method="post" action="meals">
+        <dl>
+            <dt>От даты</dt>
+            <dd><input type="date" name="startDate"></dd>
+        </dl>
+        <dl>
+            <dt>До даты</dt>
+            <dd><input type="date" name="endDate"></dd>
+        </dl>
+        <dl>
+            <dt>От времени</dt>
+            <dd><input type="time" name="startTime"></dd>
+        </dl>
+        <dl>
+            <dt>До времени</dt>
+            <dd><input type="time" name="endTime"></dd>
+        </dl>
+        <button type="submit">Фильтровать</button>
+        <button onclick="window.history.back()" type="button">Отменить</button>
+    </form>
+
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>

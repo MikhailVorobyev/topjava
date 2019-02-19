@@ -2,6 +2,8 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -19,16 +21,37 @@ public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
     private MealRestController controller;
+    private ConfigurableApplicationContext appCtx;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        controller = appCtx.getBean(MealRestController.class);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        appCtx.close();
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+
         String id = request.getParameter("id");
+        if (id == null) {
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
+            String startTime = request.getParameter("startTime");
+            String endTime = request.getParameter("endTime");
+
+            request.setAttribute("meals", controller.getAllFiltered(startDate, endDate, startTime, endTime));
+            request.getRequestDispatcher("/meals.jsp").forward(request, response);
+            response.sendRedirect(request.getHeader("referer"));
+            return;
+        }
 
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
@@ -36,14 +59,21 @@ public class MealServlet extends HttpServlet {
                 Integer.parseInt(request.getParameter("calories")));
 
         log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-
+        if (id.isEmpty()) {
+            controller.create(meal);
+        } else {
+            controller.update(meal, Integer.valueOf(id));
+        }
         response.sendRedirect("meals");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userId = request.getParameter("user");
+        if (userId != null) {
+            SecurityUtil.setAuthUserId(Integer.parseInt(request.getParameter("user")));
+        }
         String action = request.getParameter("action");
-
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);

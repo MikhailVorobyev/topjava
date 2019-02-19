@@ -10,7 +10,7 @@ import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -55,11 +55,14 @@ public class MealRestController {
         return MealsUtil.getWithExcess(service.getAll(SecurityUtil.authUserId()), MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
-    public List<MealTo> getAllFiltered(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        log.info("getAllFiltered: startDateTime {} endDateTime {}", startDateTime, endDateTime);
-        List<Meal> filteredByDate = service.getFilteredAll(SecurityUtil.authUserId(),
-                LocalDateTime.of(startDateTime.toLocalDate(), LocalTime.MIN),
-                LocalDateTime.of(endDateTime.toLocalDate(), LocalTime.MAX));
-        return MealsUtil.getWithExcess(filteredByDate, SecurityUtil.authUserCaloriesPerDay());
+    public List<MealTo> getAllFiltered(String startDate, String endDate, String startTime, String endTime) {
+        log.info("getAllFiltered: startDate {} endDate {} startTime {} endTime {}", startDate, endDate, startTime, endTime);
+        LocalDate sd = startDate.isEmpty() ? LocalDate.MIN : LocalDate.parse(startDate);
+        LocalDate ed = endDate.isEmpty() ? LocalDate.MAX : LocalDate.parse(endDate);
+        LocalTime st = startTime.isEmpty() ? LocalTime.MIN : LocalTime.parse(startTime);
+        LocalTime et = endTime.isEmpty() ? LocalTime.MAX : LocalTime.parse(endTime);
+
+        List<Meal> filteredByDate = service.getFilteredAll(SecurityUtil.authUserId(), sd, ed);
+        return MealsUtil.getFilteredWithExcess(filteredByDate, SecurityUtil.authUserCaloriesPerDay(), st, et);
     }
 }

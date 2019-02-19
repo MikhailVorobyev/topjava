@@ -4,12 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -22,17 +21,19 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryMealRepositoryImpl.class);
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
+    private static final int USER = 1;
+    private static final int ADMIN = 2;
 
     {
-        MealsUtil.MEALS.forEach(meal -> save(meal, Role.ROLE_ADMIN.ordinal()));
+        MealsUtil.MEALS.forEach(meal -> save(meal, USER));
     }
 
     @Override
     public Meal save(Meal meal, int userId) {
         log.info("save {}", meal);
+        meal.setUserId(userId);
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-            meal.setUserId(userId);
             repository.put(meal.getId(), meal);
             return meal;
         }
@@ -67,11 +68,11 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public List<Meal> getFilteredAll(int userId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        log.info("getFilteredAll  startTime {} endTime {} userId {}", startDateTime, endDateTime, userId);
+    public List<Meal> getFilteredAll(int userId, LocalDate startDate, LocalDate endDate) {
+        log.info("getFilteredAll  startTime {} endTime {} userId {}", startDate, endDate, userId);
         List<Meal> userListMeal = getAll(userId);
         return userListMeal.stream()
-                .filter(meal -> DateTimeUtil.isBetween(meal.getDateTime(), startDateTime, endDateTime))
+                .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate))
                 .collect(Collectors.toList());
     }
 
