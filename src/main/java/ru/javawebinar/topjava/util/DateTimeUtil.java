@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter;
 public class DateTimeUtil {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    public static <T extends Comparable<T>> boolean isBetween(T local, T startLocal, T endLocal) {
-        return local.compareTo(startLocal) >= 0 && local.compareTo(endLocal) <= 0;
+    public static <T extends Comparable<T>> boolean isBetween(T object, T start, T end) {
+        return object.compareTo(start) >= 0 && object.compareTo(end) <= 0;
     }
 
     public static String toString(LocalDateTime ldt) {

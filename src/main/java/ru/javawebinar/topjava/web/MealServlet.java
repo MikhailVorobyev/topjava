@@ -32,7 +32,6 @@ public class MealServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        super.destroy();
         appCtx.close();
     }
 
@@ -49,7 +48,6 @@ public class MealServlet extends HttpServlet {
 
             request.setAttribute("meals", controller.getAllFiltered(startDate, endDate, startTime, endTime));
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
-            response.sendRedirect(request.getHeader("referer"));
             return;
         }
 
@@ -69,11 +67,8 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userId = request.getParameter("user");
-        if (userId != null) {
-            SecurityUtil.setAuthUserId(Integer.parseInt(request.getParameter("user")));
-        }
         String action = request.getParameter("action");
+
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);
@@ -84,7 +79,7 @@ public class MealServlet extends HttpServlet {
             case "create":
             case "update":
                 final Meal meal = "create".equals(action) ?
-                        new Meal(null, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
+                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
                         controller.get(getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
