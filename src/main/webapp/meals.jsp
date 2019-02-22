@@ -17,19 +17,19 @@
     <form method="post" action="meals">
         <dl>
             <dt>От даты</dt>
-            <dd><input type="date" name="startDate" value=${param.get("startDate")}></dd>
+            <dd><input type="date" name="startDate" value=${param.startDate}></dd>
         </dl>
         <dl>
             <dt>До даты</dt>
-            <dd><input type="date" name="endDate" value=${param.get("endDate")}></dd>
+            <dd><input type="date" name="endDate" value=${param.endDate}></dd>
         </dl>
         <dl>
             <dt>От времени</dt>
-            <dd><input type="time" name="startTime" value=${param.get("startTime")}></dd>
+            <dd><input type="time" name="startTime" value=${param.startTime}></dd>
         </dl>
         <dl>
             <dt>До времени</dt>
-            <dd><input type="time" name="endTime" value=${param.get("endTime")}></dd>
+            <dd><input type="time" name="endTime" value=${param.endTime}></dd>
         </dl>
         <button type="submit">Фильтровать</button>
         <button onclick="window.history.back()" type="button">Отменить</button>
