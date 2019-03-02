@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d45be54bdda14f9692dee64231fabe99)](https://www.codacy.com/app/MikhailVorobyev/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MikhailVorobyev/topjava&amp;utm_campaign=Badge_Grade)
 Java Enterprise Online Project 
 ===============================
 Разработка полнофункционального Spring/JPA Enterprise приложения c авторизацией и правами доступа на основе ролей с использованием наиболее популярных инструментов и технологий Java: Maven, Spring MVC, Security, JPA(Hibernate), REST(Jackson), Bootstrap (css,js), datatables, jQuery + plugins, Java 8 Stream and Time API и хранением в базах данных Postgresql и HSQLDB.
