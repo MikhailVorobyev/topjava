@@ -36,14 +36,14 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
-        MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("id", user.getId());
-        map.addValue("name", user.getName());
-        map.addValue("email", user.getEmail());
-        map.addValue("password", user.getPassword());
-        map.addValue("registered", user.getRegistered());
-        map.addValue("enabled", user.isEnabled());
-        map.addValue("caloriesPerDay", user.getCaloriesPerDay());
+        MapSqlParameterSource map = new MapSqlParameterSource()
+                .addValue("id", user.getId())
+                .addValue("name", user.getName())
+                .addValue("email", user.getEmail())
+                .addValue("password", user.getPassword())
+                .addValue("registered", user.getRegistered())
+                .addValue("enabled", user.isEnabled())
+                .addValue("caloriesPerDay", user.getCaloriesPerDay());
 
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(map);
